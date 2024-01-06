@@ -13,6 +13,7 @@
 <div class="image_background">
     <h1 class="mb-4">Nhà sách Nguyễn Văn Cừ</h1>
 </div>
+<h1 class="text-center text-info mt-1">GIỎ HÀNG</h1>
 <div class="dark-mode-toggle">
     <button id="switch_mode" class="dark-mode-button">
         <span class="icon-container"><i class="fa-regular fa-lightbulb"></i></span>
@@ -47,48 +48,39 @@
         </div>
     </div>
 </div>
-<section class="container">
-    <ul class="pagination">
-        {% for i in range(pages) %}
-        <li class="page-item"><a class="page-link" href="/?page={{ i + 1}}">{{ i + 1}}</a></li>
-        {% endfor %}
+{% if 'cart' in session %}
+<table class="table light-mode">
+    <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên sản phẩm</th>
+        <th>Đơn giá</th>
+        <th>Số lượng</th>
+        <th></th>
+    </tr>
+    {% for c in session['cart'].values() %}
+    <tr id="product{{ c.id }}">
+        <td class="dark-mode-text">{{ c.id }}</td>
+        <td class="dark-mode-text">{{ c.name }}</td>
+        <td class="dark-mode-text">{{ c.price }} VMĐ</td>
+        <td>
+            <input type="number" onblur="updateCart({{ c.id }}, this)" value="{{ c.quantity }}" class="form-control" />
+        </td>
+        <td>
+            <button class="btn btn-danger" onclick="deleteCart({{ c.id }}, this)">&times;</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<div class="alert alert-info">
+    <h3>Tổng số lượng: {{cart_stats.total_quantity}}</h3>
+    <h3> Tổng tiền: {{ cart_stats.total_amount}}</h3>
 
-    </ul>
-    <div class="row">
-        {% for p in produces %}
-        <div class="col-xs-12 col-md-3" style="padding: 5px">
-            <div class="card rounded-card">
-                <img class="card-img-top" src="{{p.image}}" alt="Card image">
-                <div class="card-body">
-                    <h4 class="card-title">{{ p.name }}</h4>
-                    <p class="card-text">{{p.price}}</p>
-                    <a href="#" class="btn btn-primary view-detail-btn"
-                       onclick="handleViewDetailClick('{{ p.name }}', '{{ p.image }}', '{{ p.info }}', 'detailOverlay-{{ p.id }}')">Xem
-                        chi tiết</a>
-
-                    <a href="javascript:;" onclick="addToCart({{p.id}}, '{{p.name}}', {{p.price}})"
-                       class="btn btn-danger" style="border-radius: 10px">Đặt hàng</a>
-
-                    <div class="overlay" id="detailOverlay-{{ p.id }}" style="display: none;">
-                        <div class="overlay-content">
-                            <button class="close-btn" onclick="closeDetailOverlay(this)">&#10006;</button>
-                            <div class="card-detail-overlay">
-                                <h4 class="detailName"></h4>
-                                <img class="detailImage" alt="Detail Image">
-                                <p class="detailInfo"></p>
-                                <a href="javascript:;"
-                                   onclick="addToCart1({{p.id}}, '{{p.name}}', {{p.price}}); window.location.href = '/cart';"
-                                   class="btn btn-danger" style="border-radius: 10px">Mua hàng</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</section>
+</div>
+<div>
+    <input type="button" value="Thanh toán" class="btn btn-success">
+    <input type="button" value="Đặt hàng" class="btn btn-success" style="text-align: right">
+</div>
+    {% endif %}
 <footer class="bg-light text-center text-lg-start mt-5">
     <div class="container p-4">
         <div class="row">

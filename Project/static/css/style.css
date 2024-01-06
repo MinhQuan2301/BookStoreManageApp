@@ -43,8 +43,15 @@ body.dark-mode {
     background-color: #1a1a1a;
     color: #ffffff;
 }
+body:not(.dark-mode) .table.light-mode tr,
+body:not(.dark-mode) .cart-table.light-mode tr {
+    color: black;
+}
 
-
+body.dark-mode .table.light-mode tr,
+body.dark-mode .cart-table.light-mode tr {
+    color: white;
+}
 
 .card-img-top {
     width: auto;
@@ -146,7 +153,9 @@ footer img {
 .dark-mode-toggle button {
     font-size: 20px;
 }
-
+.nav-link{
+    width: 170px;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 *{
