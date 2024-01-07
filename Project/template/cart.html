@@ -41,7 +41,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown" id="categoryMenu">
                     {% for c in categories %}
-                    <li><a class="dropdown-item" href="/?cate_id={{ c.id }}">{{ c.name }}</a></li>
+                    <li><a class="dropdown-item" href="/?cate_id={{ c.Category_ID }}">{{ c.Category_Name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -58,22 +58,25 @@
         <th></th>
     </tr>
     {% for c in session['cart'].values() %}
+     <script>
+        console.log("Dữ liệu nhận được trong trang giỏ hàng:", {{ c|tojson|safe }});
+    </script>
     <tr id="product{{ c.id }}">
-        <td class="dark-mode-text">{{ c.id }}</td>
-        <td class="dark-mode-text">{{ c.name }}</td>
-        <td class="dark-mode-text">{{ c.price }} VMĐ</td>
+        <td class="dark-mode-text">{{ c.Book_ID }}</td>
+        <td class="dark-mode-text">{{ c.BookName }}</td>
+        <td class="dark-mode-text">{{ c.Price }} VMĐ</td>
         <td>
-            <input type="number" onblur="updateCart({{ c.id }}, this)" value="{{ c.quantity }}" class="form-control" />
+            <input type="number"  value="{{ c.quantity }}" class="form-control" />
         </td>
         <td>
-            <button class="btn btn-danger" onclick="deleteCart({{ c.id }}, this)">&times;</button>
+            <button class="btn btn-danger">&times;</button>
         </td>
     </tr>
     {% endfor %}
 </table>
 <div class="alert alert-info">
     <h3>Tổng số lượng: {{cart_stats.total_quantity}}</h3>
-    <h3> Tổng tiền: {{ cart_stats.total_amount}}</h3>
+    <h3> Tổng tiền: {{ "{:,.0f}".format(cart_stats.total_amount)  }}</h3>
 
 </div>
 <div>

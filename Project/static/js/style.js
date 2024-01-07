@@ -41,7 +41,6 @@ function handleViewDetailClick(name, image, info, overlayId) {
     var detailOverlay = document.getElementById(overlayId);
     detailOverlay.style.display = 'block';
 
-    // Kiểm tra giá trị
     console.log(name, image, info);
 
     detailOverlay.querySelector('.detailName').textContent = name;
@@ -61,9 +60,9 @@ function addToCart(id, name, price){
     fetch("/api/cart",{
         method: "post",
         body: JSON.stringify({
-            "id": id,
-            "name": name,
-            "price": price
+            "Book_ID": id,
+            "BookName": name,
+            "Price": price
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -81,9 +80,9 @@ function addToCart1(id, name, price){
     fetch("/api/cart",{
         method: "post",
         body: JSON.stringify({
-            "id": id,
-            "name": name,
-            "price": price
+            "Book_ID": id,
+            "BookName": name,
+            "Price": price
         }),
         headers: {
             'Content-Type': 'application/json'

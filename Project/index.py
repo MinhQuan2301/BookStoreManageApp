@@ -30,15 +30,15 @@ def add_to_cart():
     {
         "cart": {
             "1": {
-                "id": "1",
-                "name": "ABC",
-                "price": 123,
+                "Book_ID": "1",
+                "BookName": "ABC",
+                "Price": 123,
                 "quantity": 2
             },
             "2": {
-                "id": "2",
-                "name": "ABC",
-                "price": 123,
+                "Book_ID": "2",
+                "BookName": "ABC",
+                "Price": 123,
                 "quantity": 1
             }
         }
@@ -50,21 +50,25 @@ def add_to_cart():
         cart = {}
 
     data = request.json
-    id = str(data.get("id"))
+    id = str(data.get("Book_ID"))
 
     if id in cart:
         cart[id]['quantity'] += 1
     else:
         cart[id] = {
-            "id": id,
-            "name": data.get("name"),
-            "price": data.get("price"),
+            "Book_ID": id,
+            "BookName": data.get("BookName"),
+            "Price": data.get("Price"),
             "quantity": 1
         }
 
     session['cart'] = cart
 
     return jsonify(utils.count_cart(cart))
+
+
+# @app.route('/api/cart/<book.id>')
+# def update_product():
 
 
 @app.context_processor

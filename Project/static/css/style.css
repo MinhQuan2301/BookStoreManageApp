@@ -136,6 +136,12 @@ modal-open .full-height-card {
     max-width: 100%;
     height: auto;
 }
+.purchase{
+    display: block;
+    margin: 0 auto;
+    width: 20%;
+}
+
 footer.bg-light{
     color: #555555
 }

@@ -1,4 +1,4 @@
-from Project.models import Category, Book, User, Author
+from Project.models import Category, Book, User, Author, Publish
 from Project import app
 import hashlib
 from sqlalchemy import func, or_
@@ -18,18 +18,20 @@ def count_book():
 #                              User.password.__eq__(password)).first()
 
 
-def get_book(kw, cate_id, page = None):
+def get_book(kw, cate_id, page=None):
     book = Book.query
     if kw:
         book = book.join(Author)
+    book = book.join(Publish)
 
     if kw:
 
-        book = book.filter(or_(func.lower(Book.name).contains(func.lower(kw)),
-                               func.lower(Author.FullName).contains(func.lower(kw))))
+        book = book.filter(or_(func.lower(Book.BookName).contains(func.lower(kw)),
+                               func.lower(Author.AuthorName).contains(func.lower(kw)),
+                               func.lower(Publish.Publish_Name).contains(func.lower(kw))))
 
     if cate_id:
-        book = book.filter(Book.category_id.__eq__(cate_id))
+        book = book.filter(Book.Category_ID.__eq__(cate_id))
 
     if page:
         page = int(page)
@@ -37,6 +39,5 @@ def get_book(kw, cate_id, page = None):
         start = (page - 1)*page_size
 
         return book.slice(start, start + page_size)
-
 
     return book.all()
