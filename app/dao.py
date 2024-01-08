@@ -1,5 +1,5 @@
-from Project.models import Category, Book, User, Author, Publish
-from Project import app
+from app.models import Category, Book, User, Author, Publish
+from app import app
 import hashlib
 from sqlalchemy import func, or_
 

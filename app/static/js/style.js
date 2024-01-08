@@ -98,3 +98,56 @@ function addToCart1(id, name, price){
     })
 }
 
+function uppDateCart(Book_ID, obj) {
+    obj.disable = true;
+    fetch(`/api/cart/${Book_ID}`,{
+        method: "put",
+        body: JSON.stringify({
+            "quantity": obj.value
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function(res) {
+        return res.json();
+    }).then(function(data) {
+        obj.disable = false;
+        let carts = document.getElementsByClassName('cart-counter');
+        for (let c of carts)
+            c.innerText = data.total_quantity;
+
+        let amounts = document.getElementsByClassName('cart-amount');
+        for (let c of amounts)
+            c.innerText = data.total_amount.toLocaleString("en");
+    })
+}
+function deleteCart(Book_ID, obj){
+    if (confirm("Bạn chắc chắn xóa?") === true){
+        obj.disable = true;
+        fetch(`/api/cart/${Book_ID}`,{
+            method: "delete",
+            body: JSON.stringify({
+                "quantity": obj.value
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function(res) {
+            return res.json();
+        }).then(function(data) {
+            obj.disable = false;
+            let carts = document.getElementsByClassName('cart-counter');
+            for (let c of carts)
+                c.innerText = data.total_quantity;
+
+            let amounts = document.getElementsByClassName('cart-amount');
+            for (let c of amounts)
+                c.innerText = data.total_amount.toLocaleString("en");
+
+            let t = document.getElementById(`product${Book_ID}`);
+            t.style.display = "none";
+
+            })
+    }
+}
+

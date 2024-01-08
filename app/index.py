@@ -1,10 +1,10 @@
 import math
 from flask import render_template, request, redirect, jsonify, session
-from Project import template
-import database
+from app import template
+import dao
 import utils
 import json
-from Project import app
+from app import app
 
 
 @app.route('/')
@@ -13,10 +13,10 @@ def index():
     cate_id = request.args.get('cate_id')
     page = request.args.get('page')
 
-    num = database.count_book()
+    num = dao.count_book()
     page_size = app.config["PAGE_SIZE"]
 
-    pro = database.get_book(kw, cate_id, page)
+    pro = dao.get_book(kw, cate_id, page)
     return render_template('HomePage.html', pages=math.ceil(num/page_size), produces=pro)
 
 
@@ -67,14 +67,30 @@ def add_to_cart():
     return jsonify(utils.count_cart(cart))
 
 
-# @app.route('/api/cart/<book.id>')
-# def update_product():
+@app.route('/api/cart/<ID_Book>', methods=['put'])
+def update_product(ID_Book):
+    cart = session.get('cart')
+    if cart and ID_Book in cart:
+        quantity = request.json.get('quantity')
+        cart[ID_Book]['quantity'] = int(quantity)
 
+    session['cart'] = cart
+    return jsonify(utils.count_cart(cart))
+
+
+@app.route('/api/cart/<ID_Book>', methods=['delete'])
+def delete_product(ID_Book):
+    cart = session.get('cart')
+    if cart and ID_Book in cart:
+        del cart[ID_Book]
+
+    session['cart'] = cart
+    return jsonify(utils.count_cart(cart))
 
 @app.context_processor
 def common_responses():
     return {
-        'categories': database.get_category(),
+        'categories': dao.get_category(),
         'cart_stats': utils.count_cart(session.get('cart'))
     }
 # @app.route('/user-login', methods=['get', 'post'])
@@ -86,5 +102,5 @@ def common_responses():
 
 
 if __name__ == '__main__':
-    # from Project import admin
+    # from app import admin
     app.run(debug=True)

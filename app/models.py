@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey, CheckConstraint,Enum, TEXT, CHAR, Date, DateTime
 from sqlalchemy.orm import relationship
-from Project import db, app
+from app import db, app
 from flask_login import UserMixin
 import hashlib, enum
 from datetime import datetime

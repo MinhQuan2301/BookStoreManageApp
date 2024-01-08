@@ -1,0 +1,49 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Trang chủ {% endblock %}
+
+{% block content %}
+<section class="container">
+    <ul class="pagination">
+        {% for i in range(pages) %}
+        <li class="page-item"><a class="page-link" href="/?page={{ i + 1}}">{{ i + 1}}</a></li>
+        {% endfor %}
+
+    </ul>
+    <div class="row">
+        {% for p in produces %}
+        <div class="col-xs-12 col-md-3" style="padding: 5px">
+            <div class="card rounded-card">
+                <img class="card-img-top" src="{{p.Image}}" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">{{ p.BookName }}</h4>
+                    <p class="card-text">{{p.Price}}</p>
+                    <a href="#" class="btn btn-primary view-detail-btn"
+                       onclick="handleViewDetailClick('{{ p.BookName }}', '{{ p.Image }}', '{{ p.BookInfo }}', 'detailOverlay-{{ p.Book_ID }}')">Xem
+                        chi tiết</a>
+
+                    <a href="javascript:;" onclick="addToCart({{p.Book_ID}}, '{{p.BookName}}', {{p.Price}})"
+                       class="btn btn-danger" style="border-radius: 10px">Đặt hàng</a>
+
+                    <div class="overlay" id="detailOverlay-{{ p.Book_ID }}" style="display: none;">
+                        <div class="overlay-content">
+                            <button class="close-btn" onclick="closeDetailOverlay(this)">&#10006;</button>
+                            <div class="card-detail-overlay">
+                                <h4 class="detailName"></h4>
+                                <img class="detailImage" alt="Detail Image">
+                                <p class="detailInfo"></p>
+                                <a href="javascript:;"
+                                   onclick="addToCart1({{p.Book_ID}}, '{{p.BookName}}', {{p.Price}}); window.location.href = '/cart';"
+                                   class="btn btn-danger " style="border-radius: 10px">Mua hàng</a>
+                                <a class="btn btn-danger " style="border-radius: 10px">Đánh giá</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock%}

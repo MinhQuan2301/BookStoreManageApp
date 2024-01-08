@@ -1,0 +1,37 @@
+<div class="image_background">
+    <h1 class="mb-4">Nhà sách Nguyễn Văn Cừ</h1>
+</div>
+<div class="dark-mode-toggle">
+    <button id="switch_mode" class="dark-mode-button">
+        <span class="icon-container"><i class="fa-regular fa-lightbulb"></i></span>
+    </button>
+</div>
+<div class="container mt-5">
+    <li class="nav-item d-flex ">
+        <a class="nav-link mb-4" href="/">Trang chủ</a>
+        <a class="nav-link mb-4 text-danger" href="/cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-counter">{{ cart_stats.total_quantity }}</span>
+        </a>
+    </li>
+    <div class="search-bar-container">
+        <form class="search-bar" method="get" action="/">
+            <input class="form-control me-2" type="text" name="kw" placeholder="Nhập từ khóa...">
+            <button class="btn btn-primary" style="background-color:blue " type="submit">Search</button>
+        </form>
+        <div class="category-select">
+            <label class="form-label">Chọn thể loại:</label>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Menu
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdown" id="categoryMenu">
+                    {% for c in categories %}
+                    <li><a class="dropdown-item" href="/?cate_id={{ c.Category_ID }}">{{ c.Category_Name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
